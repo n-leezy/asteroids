@@ -27,6 +27,7 @@ def main():
                 return
         pygame.Surface.fill(screen, BLACK)
         player.draw(screen)
+        player.update(dt)
         pygame.display.flip()
         delta_time = clock.tick(60) # Pauses the game loop until 1/nth of a second has passed, returns the amount of time passed since last called
         dt = delta_time / 1000 # stores the delta time in seconds into dt
