@@ -32,7 +32,7 @@ def main():
 
     
     player = Player(x, y) # instantiate player class
-    asteroids = AsteroidField() # instantiate asteroid field
+    asteroid_field = AsteroidField() # instantiate asteroid field
 
     dt = 0
 
@@ -48,6 +48,11 @@ def main():
         for drawable in drawables: # draws the drawables
             drawable.draw(screen)
         pygame.display.flip()
+        for asteroid in asteroids:
+            if asteroid.collisions(player):
+                print("Game over!")
+                pygame.quit()
+                return
         delta_time = clock.tick(60) # Pauses the game loop until 1/nth of a second has passed, returns the amount of time passed since last called
         dt = delta_time / 1000 # stores the delta time in seconds into dt
 
