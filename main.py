@@ -4,8 +4,11 @@
 import pygame # type: ignore
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
-BLACK = (0,0,0)
+
+
 
 def main():
     pygame.init()
@@ -17,10 +20,19 @@ def main():
 
     x = SCREEN_WIDTH / 2 # finds the midpoint of the screen
     y = SCREEN_HEIGHT / 2
-    player = Player(x, y) # instantiate player class
+    
 
-    updateables = pygame.sprite.Group(player) # group the updateable sprites together
-    drawables = pygame.sprite.Group(player) # group the drawable sprites together
+    updateables = pygame.sprite.Group() # group the updateable sprites together
+    drawables = pygame.sprite.Group() # group the drawable sprites together
+    asteroids = pygame.sprite.Group() # group to contain all the asteroids
+
+    Player.containers = (updateables, drawables) # adds player to both groups
+    Asteroid.containers = (asteroids, updateables, drawables) # adds asteroid to groups
+    AsteroidField.containers = (updateables) # asteroidfield group set
+
+    
+    player = Player(x, y) # instantiate player class
+    asteroids = AsteroidField() # instantiate asteroid field
 
     dt = 0
 

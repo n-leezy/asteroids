@@ -1,8 +1,7 @@
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
+from constants import *
 from circleshape import CircleShape
 import pygame
 
-WHITE = (255, 255, 255)
 
 # Player class that inherits from CircleShape
 class Player(CircleShape):
