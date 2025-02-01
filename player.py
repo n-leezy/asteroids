@@ -1,13 +1,15 @@
 from constants import *
 from circleshape import CircleShape
 import pygame
+from shot import Shot
 
 
 # Player class that inherits from CircleShape
 class Player(CircleShape):
-    def __init__(self, x, y):
+    def __init__(self, x, y, shots_group):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shots_group = shots_group
 
     # in the player class, draws the player as a triangle
     def triangle(self):
@@ -38,8 +40,17 @@ class Player(CircleShape):
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(dt*-1)
+        if keys[pygame.K_SPACE]:
+            self.shoot(dt)
 
     # moves the ship back and forth with the w and s keys
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
+
+    # controls the shots of the player
+    def shoot(self, dt):
+        current_shot = Shot(self.position[0], self.position[1], SHOT_RADIUS)
+        shot_direction = pygame.Vector2(0,1).rotate(self.rotation)
+        current_shot.velocity = shot_direction * PLAYER_SHOOT_SPEED
+        self.shots_group.add(current_shot)
