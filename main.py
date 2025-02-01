@@ -51,11 +51,16 @@ def main():
         for drawable in drawables: # draws the drawables
             drawable.draw(screen)
         pygame.display.flip()
-        for asteroid in asteroids:
+        for asteroid in asteroids: # collision check with player
             if asteroid.collisions(player):
                 print("Game over!")
                 pygame.quit()
                 return
+        for asteroid in asteroids: # collision check for shots and asteroids
+            for bullet in shots:
+                if asteroid.collisions(bullet):
+                    asteroid.kill()
+                    bullet.kill()
         delta_time = clock.tick(60) # Pauses the game loop until 1/nth of a second has passed, returns the amount of time passed since last called
         dt = delta_time / 1000 # stores the delta time in seconds into dt
 
