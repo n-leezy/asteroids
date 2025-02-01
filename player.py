@@ -10,6 +10,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.shots_group = shots_group
+        self.timer = 0
 
     # in the player class, draws the player as a triangle
     def triangle(self):
@@ -31,6 +32,7 @@ class Player(CircleShape):
     # updates the player on the screen
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        self.timer -= dt 
 
         if keys[pygame.K_a]:
             self.rotate(dt*-1) # multiply by -1 for opposite rotation
@@ -50,7 +52,9 @@ class Player(CircleShape):
 
     # controls the shots of the player
     def shoot(self, dt):
-        current_shot = Shot(self.position[0], self.position[1], SHOT_RADIUS)
-        shot_direction = pygame.Vector2(0,1).rotate(self.rotation)
-        current_shot.velocity = shot_direction * PLAYER_SHOOT_SPEED
-        self.shots_group.add(current_shot)
+        if self.timer <= 0:
+            current_shot = Shot(self.position[0], self.position[1], SHOT_RADIUS)
+            shot_direction = pygame.Vector2(0,1).rotate(self.rotation)
+            current_shot.velocity = shot_direction * PLAYER_SHOOT_SPEED
+            self.shots_group.add(current_shot)
+            self.timer = 0.3
